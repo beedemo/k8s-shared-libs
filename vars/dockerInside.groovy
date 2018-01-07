@@ -1,11 +1,10 @@
 #!/usr/bin/groovy
 
-def call(String image, Closure body) {
-  def name = sh (returnStdout: true, script: "echo '${image}' |sed 's/:.*//'")
+def call(String imageName, String imageTag, Closure body) {
   podTemplate(label: 'kubernetes',
-    containers: [containerTemplate(name: "$name", image: "$image", command: 'cat', ttyEnabled: true)]) {
+    containers: [containerTemplate(name: "$imageName", image: "$imageName:$imageTag", command: 'cat', ttyEnabled: true)]) {
     node('kubernetes') {
-      container("$name") {
+      container("$imageName") {
         body()
       }
     }
