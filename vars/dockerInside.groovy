@@ -1,5 +1,5 @@
 #!/usr/bin/groovy
-def call(String image) {
+def call(image) {
   podTemplate(label: kubernetes,
     containers: [containerTemplate(name: "$image", image: "$image", command: 'cat', ttyEnabled: true)]) {
     container("$image") {
